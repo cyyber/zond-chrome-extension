@@ -2,14 +2,77 @@
   <ion-app>
   <ion-page>
     <ion-header>
-      <ion-toolbar>
-        <ion-title size="large">QRL::Zond</ion-title>
-      </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-buttons slot="primary">
+      <ion-button>
+        <ion-icon slot="icon-only" :icon="menu"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>QRL Wallet</ion-title>
+  </ion-toolbar>
+
     </ion-header>
     <ion-content :fullscreen="true" class="ion-padding">
       <div id="container">
-        <ion-grid v-if="result.address">
-          <p>{{ result }}</p>
+        <ion-grid v-if="result?.address">
+          <ion-toolbar>
+            <ion-buttons slot="start" size="small">
+              <ion-button v-if="connected" class="connected-button"> Connected </ion-button>
+              <ion-button v-else class="disconnected-button"> 
+                Disconnected
+              </ion-button>
+            </ion-buttons>
+            <ion-row>
+              <ion-col></ion-col>
+              <ion-col>
+            <ion-buttons>
+              <ion-button>
+                <div class="xyz">
+                  <p class="account-name-label">
+                     {{result.name}}
+                  </p>
+                  <p class="account-address-label">
+                    {{result.address}}
+                  </p>
+                </div>
+              </ion-button>
+            </ion-buttons>
+            </ion-col>
+            <ion-col></ion-col>
+            </ion-row>
+            <ion-buttons slot="end">
+              <ion-button>
+                <ion-icon slot="icon-only" :icon="ellipsisVerticalOutline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+          <ion-row>
+            <ion-col></ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>QRL Balance = {{result.balance}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+          <ion-col></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-icon></ion-icon>
+            <ion-col>
+              <ion-button>
+                <ion-icon slot="icon-only" :icon="arrowDownCircleOutline"></ion-icon>
+                <ion-label>Buy</ion-label>
+              </ion-button>
+            </ion-col>
+            <ion-icon></ion-icon>
+            <ion-col>
+              <ion-button>
+                <ion-icon slot="icon-only" :icon="arrowUpCircleOutline"></ion-icon>
+                <ion-label>Sell</ion-label>
+              </ion-button>
+            </ion-col>
+            <ion-icon></ion-icon>
+          </ion-row>
         </ion-grid>
         <ion-grid v-if="generating">
           <img id="loader" src="icons/loading.gif">
@@ -100,9 +163,10 @@
 /* global QRLLIB */
 import randomBytes from 'randombytes'
 
-import { IonRow, IonItem, IonRadioGroup, IonListHeader, IonButton, IonRadio, IonLabel, IonToggle, IonCol, IonGrid, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonRow, IonItem, IonRadioGroup, IonListHeader, IonButton, IonRadio, IonLabel, IonToggle, IonCol, IonGrid, IonContent, IonIcon, IonHeader, IonPage, IonTitle, IonToolbar, IonMenuButton, IonButtons, IonApp, IonItemOption, IonItemOptions, IonBackButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent} from '@ionic/vue';
 
 import { defineComponent } from 'vue';
+import {menu, ellipsisVerticalOutline, arrowDownCircleOutline, arrowUpCircleOutline} from 'ionicons/icons';
 
 export default defineComponent({
   name: 'App',
@@ -121,16 +185,31 @@ export default defineComponent({
     IonToggle,
     IonPage,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    // IonMenuButton,
+    IonButtons,
+    IonIcon,
+    IonApp,
+    // IonItemOption,
+    // IonItemOptions,
+    // IonBackButton,
+    IonCard,
+    IonCardTitle,
+    IonCardHeader,
+    // IonCardContent
   },
+  
   data() {
     return {
       shown: false,
+      connected: false,
       generating: false,
       result: {
-        address: '',
-        hexseed: '',
-        mnemonic: '',
+        name: 'Account1',
+        address: 'abc',
+        balance: 10,
+        hexseed: 'abc',
+        mnemonic: 'a c v',
       },
       treeHeight: "10",
       hashFunction: "SHA2_256",
@@ -176,12 +255,22 @@ export default defineComponent({
         gen({ treeHeight: this.treeHeight, hashFunction: this.hashFunction }).then((Q) => {
           this.generating = false
           this.result = {
+            name: "name",
+            balance: 0,
             address: Q.getAddress(),
             hexseed: Q.getHexSeed(),
             mnemonic: Q.getMnemonic(),
           }
         })   
       }, 100);
+    }
+  },
+  setup() {
+    return {
+      menu,
+      ellipsisVerticalOutline,
+      arrowDownCircleOutline,
+      arrowUpCircleOutline,
     }
   }
 })
@@ -191,5 +280,30 @@ export default defineComponent({
 html {
   width: 400px !important;
   height: 400px !important;
+}
+</style>
+<style scoped>
+.account-name-label {
+  font-size: small;
+  padding: 0%;
+  margin-top: 0%;
+  margin-bottom: 10%;
+  text-align: center;
+}
+.account-address-label {
+  font-size: smaller;
+  padding: 0%;
+  margin-top: 10%;
+  margin-bottom: 0%;
+  text-align: center;
+}
+.connected-button {
+  font-size: smaller;
+}
+.disconnected-button {
+  font-size: smaller;
+}
+.ion-text-center {
+  text-align: center;
 }
 </style>

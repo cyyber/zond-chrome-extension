@@ -1,12 +1,14 @@
 /* global QRLLIB */
-import { createApp } from 'vue'
+import { createApp, h } from 'vue'
 import App from './App.vue'
+import Welcome from './Welcome.vue'
+import Login from './Login.vue'
 
 // import router from '../router';
 import { QRLLIBmodule } from '@theqrl/qrllib-browserify/dist/qrllib'
 import { IonicVue } from '@ionic/vue';
 import { createPinia } from 'pinia';
-
+import { createRouter, createWebHashHistory } from '@ionic/vue-router';
 // import { QRLLIBmodule } from 'qrllib/build/offline-libjsqrl'; // eslint-disable-line
 
 /* Core CSS required for Ionic components to work properly */
@@ -27,8 +29,28 @@ import '@ionic/vue/css/display.css';
 
 /* Theme variables */
 import '../theme/variables.css';
+// import Vue from 'vue'
+import VueRouter from 'vue-router'
+import {router} from "./router"
+
+
+// Vue.use(VueRouter)
+
+// const routes = [
+//     { path: '/', component: Welcome },
+//     { path : '/login', component:Login},
+//     { path: '/app', component: App },
+// ]
+
+// export const router = createRouter({
+//     // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+//     history: createWebHashHistory('/'),
+//     routes, // short for `routes: routes`
+// })
 
 const pinia = createPinia();
+
+
 
 const waitForQRLLIB = (callBack: () => any) => {
   setTimeout(() => {
@@ -43,10 +65,12 @@ const waitForQRLLIB = (callBack: () => any) => {
   }, 50);
 };
 
-const app = createApp(App)
+const app = createApp({
+  render: ()=>h(Welcome)
+})
   .use(IonicVue)
-  .use(pinia);
-  // .use(router);
+  .use(pinia)
+  .use(router);
   
 async function startup() {
   await QRLLIBmodule
