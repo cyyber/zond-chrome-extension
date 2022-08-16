@@ -1,14 +1,14 @@
 /* global QRLLIB */
 import { createApp, h } from 'vue'
+import Welcome from './views/Welcome.vue';
+import Account from './views/AccountDetails.vue'
+import Splash from './views/Splash.vue'
 import App from './App.vue'
-import Welcome from './Welcome.vue'
-import Login from './Login.vue'
 
 // import router from '../router';
 import { QRLLIBmodule } from '@theqrl/qrllib-browserify/dist/qrllib'
 import { IonicVue } from '@ionic/vue';
 import { createPinia } from 'pinia';
-import { createRouter, createWebHashHistory } from '@ionic/vue-router';
 // import { QRLLIBmodule } from 'qrllib/build/offline-libjsqrl'; // eslint-disable-line
 
 /* Core CSS required for Ionic components to work properly */
@@ -30,7 +30,6 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import '../theme/variables.css';
 // import Vue from 'vue'
-import VueRouter from 'vue-router'
 import {router} from "./router"
 
 

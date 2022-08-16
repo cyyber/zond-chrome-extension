@@ -7,11 +7,15 @@ module.exports = defineConfig({
       title: 'Popup'
     }
   },
+  configureWebpack: {
+    devtool: 'source-map',
+  },
   pluginOptions: {
     browserExtension: {
+      
       componentOptions: {
         background: {
-          entry: 'src/background.ts'
+          entry: 'src/background.js'
         }
       }
     }

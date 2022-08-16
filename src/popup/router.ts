@@ -1,15 +1,18 @@
 import Vue from 'vue'
 import {createRouter, createWebHistory} from 'vue-router'
-import App from './App.vue'
-import Welcome from './Welcome.vue'
-import Login from './Login.vue'
+import Wallet from './views/Wallet.vue'
+import Welcome from './views/Welcome.vue'
+import Login from './views/Login.vue'
+import Splash from './views/Splash.vue'
+import Account from './views/AccountDetails.vue'
 
 
 const routes = [
-    {path: '/', redirect: '/welcome'},
+    {path: '/', redirect: '/account'},
+    {path: '/splash', component: Splash},
     { path: '/welcome', component: Welcome },
     { path : '/login', component:Login},
-    { path: '/app', component: App },
+    { path: '/app/:id', component: Wallet }
 ]
 
 export const router = createRouter({

@@ -14,9 +14,7 @@
     "128": "icons/128.png"
   },
   "background": {
-    "service-worker": [
-      "js/background.js"
-    ]
+    "scripts": ["js/background.js"]
   },
   "browser_action": {
     "default_popup": "popup.html",
