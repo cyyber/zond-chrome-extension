@@ -21,6 +21,12 @@
         <ion-col>
             {{computedMnemonic}}
         </ion-col>
+        <ion-col>
+            <ion-button v-on:click="toggleMnemonic">
+                <ion-icon slot="icon-only" :icon="eyeOffOutline" v-if="!showMnemonic"></ion-icon>
+                <ion-icon slot="icon-only" :icon="eyeOutline" v-if="showMnemonic"></ion-icon>
+            </ion-button>
+        </ion-col>
     </ion-row>
     <ion-row>
         <ion-col>
@@ -28,6 +34,12 @@
         </ion-col>
         <ion-col>
             {{computedHexSeed}}
+        </ion-col>
+        <ion-col>
+            <ion-button v-on:click="toggleHexSeed">
+                <ion-icon slot="icon-only" :icon="eyeOffOutline" v-if="!showHexseed"></ion-icon>
+                <ion-icon slot="icon-only" :icon="eyeOutline" v-if="showHexseed"></ion-icon>
+            </ion-button>
         </ion-col>
     </ion-row>
     <ion-row>
@@ -49,8 +61,9 @@
 </ion-content>
 </template>
 <script lang="ts">
-import { IonApp, IonPage, IonGrid, IonRow, IonHeader, IonToolbar, IonContent, IonButton, IonTitle, IonCol, modalController } from "@ionic/vue";
+import { IonApp, IonPage, IonGrid, IonRow, IonHeader, IonToolbar, IonContent, IonButton, IonTitle, IonCol, IonIcon, IonLabel, modalController } from "@ionic/vue";
 import { defineComponent } from "vue";
+import { eyeOffOutline, eyeOutline } from "ionicons/icons";
 // import { useIonRouter } from '@ionic/vue';
 import { useRouter } from "vue-router";
 import {Storage} from '@ionic/storage'
@@ -75,6 +88,7 @@ export default defineComponent({
         IonHeader,
         IonToolbar,
         IonTitle,
+        IonIcon,
     },
     props: {
         id: String,
@@ -87,6 +101,8 @@ export default defineComponent({
     data() {
         return {
             store: new Storage,
+            showMnemonic: false,
+            showHexseed: false,
             result: {
                 username: '',
                 wallet: new Array<{
@@ -104,16 +120,31 @@ export default defineComponent({
             return this.result.wallet[this.index?this.index:0]?.address
         },
         computedMnemonic(){
-            return this.result.wallet[this.index?this.index:0]?.mnemonic
+            if(this.showMnemonic) {
+                return this.result.wallet[this.index?this.index:0]?.mnemonic
+            } else {
+                return "************************************"
+            }
+            
         },
         computedHexSeed(){
-            return this.result.wallet[this.index?this.index:0]?.hexseed
+            if(this.showHexseed) {
+                return this.result.wallet[this.index?this.index:0]?.hexseed
+            } else {
+                return "************************************"
+            }
         }
     },
     beforeMount(){
         this.getWallets(String(this.id), Number(this.index))
     },
     methods: {
+        toggleMnemonic(){
+            this.showMnemonic = !this.showMnemonic
+        },
+        toggleHexSeed(){
+            this.showHexseed = !this.showHexseed
+        },
         copyTestingCode () {
           var testingCodeToCopy = document.querySelector('#testing-code') as HTMLInputElement
           testingCodeToCopy.setAttribute('type', 'text')    // 不是 hidden 才能複製
@@ -141,6 +172,12 @@ export default defineComponent({
             this.result = wallet
         },
     },
+    setup() {
+        return {
+            eyeOffOutline,
+            eyeOutline
+        }
+    }
 })
 
 </script>

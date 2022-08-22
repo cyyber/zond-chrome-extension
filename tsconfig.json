@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
@@ -33,8 +34,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-, "src/background.js"  ],
+    "tests/**/*.tsx", "src/background.js", "src/popup/qrllib-js.js"  ],
   "exclude": [
     "node_modules"
   ]

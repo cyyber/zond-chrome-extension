@@ -17,12 +17,12 @@
           <ion-row>
             <ion-col>
             </ion-col>
-            <ion-col>
+            <!-- <ion-col>
               <ion-item>
                 <ion-label>Advanced options</ion-label>
                 <ion-toggle name="advanced" v-on:click="toggle"></ion-toggle>
               </ion-item>
-            </ion-col>
+            </ion-col> -->
             <ion-col></ion-col>
           </ion-row>
           <ion-row v-if="shown">
@@ -103,12 +103,16 @@
 </template>
 <script lang="ts">
 /* global QRLLIB */
+/* eslint-disable */
+declare var dilithium: any
 import randomBytes from 'randombytes'
 import {IonContent, IonGrid, IonRow, IonCol, IonButton, IonItem, IonLabel, IonRadio, IonHeader, IonInput, IonToggle, IonRadioGroup, IonListHeader, IonTitle, IonToolbar, modalController} from '@ionic/vue'
 import { defineComponent } from 'vue'
 import { setStore } from '@/store/ionic-storage';
 import {Storage} from '@ionic/storage'
 import Mnemonic from '../components/Mnemonic.vue'
+require('../qrllib-js.js')
+// console.log("dilithium object", Object.keys(qrl.dilithium))
 
 export default defineComponent({
     props:{
@@ -179,7 +183,7 @@ export default defineComponent({
             var wallet = await store.get(id)
             this.result = wallet
         },
-        async generateWallet() {
+        async generateXmssWallet() {
             this.generating = true
             const toUint8Vector = (arr: any) => {
                 const vec = new QRLLIB.Uint8Vector();
@@ -216,7 +220,7 @@ export default defineComponent({
                 this.result.wallet.push({
                     name: String(this.accountname),
                     balance: 0,
-                    address: Q.getAddress(),
+                    address: Q.GetAddress(),
                     hexseed: Q.getHexSeed(),
                     mnemonic: Q.getMnemonic(),
                 })
@@ -235,6 +239,36 @@ export default defineComponent({
                 await this.openAccountModal(String(this.id), this.index)
                 })   
             }, 100);
+        },
+        async dilithiumGenerate(){
+          var d = dilithium.New()
+          return d;
+        },
+        async generateWallet() {
+          // this.generating = true
+          this.dilithiumGenerate().then(async (Q: any) => {
+            this.generating = false
+            this.result.wallet.push({
+                name: String(this.accountname),
+                balance: 0,
+                address: Q.GetAddress(),
+                hexseed: Q.GetSeed(),
+                mnemonic: Q.GetMnemonic(),
+            })
+            var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; }[] = []
+            this.result.wallet.map((i) => {
+                result_wallet_copy.push({
+                name: i.name,
+                balance: i.balance,
+                address: i.address,
+                hexseed: i.hexseed,
+                mnemonic: i.mnemonic,
+                })
+            })
+            await this.store.set(String(this.id), {username: this.result.username, wallet: [...result_wallet_copy]})
+            this.index = this.result.wallet.length - 1
+            await this.openAccountModal(String(this.id), this.index)
+          })   
         },
         backToApp() {
             return modalController.dismiss()

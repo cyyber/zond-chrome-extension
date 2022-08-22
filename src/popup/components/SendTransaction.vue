@@ -14,24 +14,40 @@
             </ion-select>
         </ion-row>
         <ion-row v-if="tx_type=='transfer'||tx_type=='interact_contract'">
+            <ion-col>
             <ion-item>
                 <ion-input placeholder="Send to"></ion-input>
             </ion-item>
+            </ion-col>
         </ion-row>
         <ion-row v-if="tx_type=='transfer'">
+            <ion-col>
             <ion-item>
                 <ion-input placeholder="Amount"></ion-input>
             </ion-item>
+            </ion-col>
         </ion-row>
         <ion-row v-if="tx_type=='deploy_contract'||tx_type=='interact_contract'">
+            <ion-col>
+                <ion-item>
+                    <ion-textarea placeholder="Data" type="text"></ion-textarea>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row v-if="tx_type=='deploy_contract'||tx_type=='interact_contract'||tx_type=='transfer'">
             <ion-item>
-                <ion-input placeholder="Data"></ion-input>
+                <ion-input placeholder="Gas Price"></ion-input>
+            </ion-item>
+        </ion-row>
+        <ion-row v-if="tx_type=='deploy_contract'||tx_type=='interact_contract'||tx_type=='transfer'">
+            <ion-item>
+                <ion-input placeholder="Gas"></ion-input>
             </ion-item>
         </ion-row>
         <ion-row>
             <ion-col></ion-col>
             <ion-col>
-                <ion-button>Send</ion-button>
+                <ion-button v-on:click="sendTransaction">Send</ion-button>
             </ion-col>
             <ion-col></ion-col>
         </ion-row>
@@ -46,8 +62,12 @@
  </ion-content>
 </template>
 <script lang="ts">
-import { IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonHeader, IonToolbar, IonTitle, IonItem, IonSelect, IonSelectOption, modalController } from "@ionic/vue";
+declare var dilithium: any
+import { IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonHeader, IonToolbar, IonTitle, IonItem, IonSelect, IonSelectOption, IonTextarea, modalController } from "@ionic/vue";
 import { defineComponent } from "vue";
+import {Storage} from '@ionic/storage'
+import { setStore } from '@/store/ionic-storage';
+require('../qrllib-js.js')
 
 export default defineComponent({
     name: 'SendTransaction',
@@ -57,7 +77,18 @@ export default defineComponent({
     },
     data(){
         return {
-            tx_type: ''
+            tx_type: '',
+            store: new Storage,
+            result: {
+                username: '',
+                wallet: new Array<{
+                name: string,
+                balance: number,
+                address: string,
+                hexseed: string,
+                mnemonic: string,
+                }>
+            },
         }
     },
     components: {
@@ -72,9 +103,25 @@ export default defineComponent({
         IonGrid,
         IonItem,
         IonSelect,
-        IonSelectOption
+        IonSelectOption,
+        IonTextarea
+    },
+    beforeMount(){
+        this.getWallets(String(this.id), Number(this.index))
     },
     methods: {
+        async getWallets(id: string, index: number) {
+            var store = await setStore()
+            this.store = store
+            var wallet = await store.get(id)
+            this.result = wallet
+        },
+        sendTransaction(){
+            let message = "sample transaction"
+            var d = dilithium.NewFromSeed(this.result.wallet[this.index?this.index:0].hexseed)
+            var signature = d.Sign(message)
+            console.log(signature)
+        },
         backToApp() {
             return modalController.dismiss()
         },

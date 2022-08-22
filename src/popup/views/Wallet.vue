@@ -52,6 +52,8 @@
             <ion-col></ion-col>
           <ion-card>
             <ion-card-header>
+              <ion-card-title>QRL Address: {{result.wallet[index].address}}</ion-card-title>
+              <ion-card-title></ion-card-title>
               <ion-card-title>QRL Balance = {{result.wallet[index].balance}}</ion-card-title>
             </ion-card-header>
           </ion-card>
