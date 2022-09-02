@@ -112,7 +112,6 @@ import { setStore } from '@/store/ionic-storage';
 import {Storage} from '@ionic/storage'
 import Mnemonic from '../components/Mnemonic.vue'
 require('../qrllib-js.js')
-// console.log("dilithium object", Object.keys(qrl.dilithium))
 
 export default defineComponent({
     props:{

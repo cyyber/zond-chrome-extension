@@ -6,7 +6,11 @@
   "default_locale": "en",
   "permissions": [
     "<all_urls>",
-    "*://*/*"
+    "*://*/*",
+    "activeTab",
+    "webRequest",
+    "*://*.eth/",
+    "notifications"
   ],
   "icons": {
     "16": "icons/16.png",
@@ -16,6 +20,19 @@
   "background": {
     "scripts": ["js/background.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["file://*/*", "http://*/*", "https://*/*"],
+      "js": [
+        "js/contentScript.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    "js/inpage.js", "js/inpage.js.map", "js/contentScript.js.map"
+  ],
   "browser_action": {
     "default_popup": "popup.html",
     "default_title": "__MSG_extName__",
