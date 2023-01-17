@@ -39,6 +39,7 @@
     "path": "^0.12.7",
     "pinia": "^2.0.16",
     "post-message-stream-browserify": "^1.0.0",
+    "pumpify": "^2.0.1",
     "qrllib": "^1.2.4",
     "qrllib-js": "^1.0.0",
     "randombytes": "^2.1.0",

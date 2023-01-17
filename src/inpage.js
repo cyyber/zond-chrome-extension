@@ -36,8 +36,8 @@ const initializeProvider = require('@prajjawal/qrl_providers/dist/initializeInpa
 restoreContextAfterImports();
 
 const metamaskStream = new WindowPostMessageStream({
-    name: 'metamask-inpage',
-    target: 'metamask-contentscript',
+    name: 'qrl-inpage',
+    target: 'qrl-contentscript',
 });
   
 initializeProvider({

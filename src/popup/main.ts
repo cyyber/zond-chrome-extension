@@ -31,7 +31,8 @@ import '@ionic/vue/css/display.css';
 import '../theme/variables.css';
 // import Vue from 'vue'
 import {router} from "./router"
-
+// import connectbackground from "../service/controller"
+import connectPopuptoBackground from '../service/controller'
 
 // Vue.use(VueRouter)
 
@@ -56,6 +57,7 @@ const waitForQRLLIB = (callBack: () => any) => {
     // Test the QRLLIB object has the str2bin function.
     // This is sufficient to tell us QRLLIB has loaded.
       if (typeof QRLLIB.str2bin === 'function') {
+        connectPopuptoBackground()
         callBack();
       } else {
         return waitForQRLLIB(callBack);

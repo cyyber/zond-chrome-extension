@@ -10,7 +10,6 @@ module.exports = defineConfig({
       entry: './src/popup/main.ts',
       title: 'Popup'
     },
-    inpage: './src/inpage_browserify.js'
   },
   
   configureWebpack: {

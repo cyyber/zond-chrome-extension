@@ -3,69 +3,63 @@ import PortStream from 'extension-port-stream';
 import createEngineStream from 'json-rpc-middleware-stream/dist/createEngineStream';
 import ObjectMultiplex from 'obj-multiplex';
 import browser from 'webextension-polyfill';
-import {JsonRpcEngine} from 'json-rpc-engine'
-
+import { JsonRpcEngine } from 'json-rpc-engine';
+import { once, EventEmitter } from "events";
+var eventEmitter = new EventEmitter();
 
 function setupProviderConnection(outStream, sender, subjectType) {
     const engine = new JsonRpcEngine()
-    console.log("reached provider")
-    engine.push(async (req, res, next, end)=>{
-        console.log("pushing in engine", req)
-        if(req.method == "eth_requestAccounts"){
+    engine.push(async (req, res, next, end) => {
+        if (req.method == "eth_requestAccounts") {
             let extensionURL = browser.runtime.getURL('popup.html');
-            await browser.tabs.create({url: extensionURL})
-            Object.assign(res, {result: {
-                accounts: ["acc1", "acc2"],
-                chainId: "8000",
-                isUnlocked: true,
-                networkVersion: "2.0"
-            }})
-        } else {
-            Object.assign(res, {result: {
-                accounts: ["acc1", "acc2"],
-                chainId: "8000",
-                isUnlocked: true,
-                networkVersion: "2.0"
-            }})
+            await browser.tabs.create({ url: extensionURL })
+            let controllerPort = await once(eventEmitter, "controllerPort_assigned")
+            controllerPort[0].postMessage({ method: "req_account" })
+            controllerPort[0].onMessage.addListener((msg) => {
+                if (msg.accounts) {
+                    Object.assign(res, {
+                        result: msg.accounts
+                    })
+                    end()
+                }
+            })
         }
-        
-        end()
     })
     const providerStream = createEngineStream({ engine });
+
     pump(outStream, providerStream, outStream, (err) => {
         console.log(err)
-      });
+    });
 
 }
-
 
 function connectRemote(remotePort) {
     const processName = remotePort.name;
+    let isQRLInternalProcess = false;
 
-    let isMetaMaskInternalProcess = false;
-
-   
-    isMetaMaskInternalProcess = remotePort.sender.origin === `chrome-extension://${browser.runtime.id}`;
-    
+    isQRLInternalProcess = remotePort.sender.origin === `chrome-extension://${browser.runtime.id}`;
 
     const senderUrl = remotePort.sender?.url
-      ? new URL(remotePort.sender.url)
-      : null;
+        ? new URL(remotePort.sender.url)
+        : null;
 
-    
-    const portStream = new PortStream(remotePort);
-    
-    const mux = new ObjectMultiplex();
-    pump(portStream, mux, portStream, (err)=>{
-        console.log(err)
-    })
-    
-    setupProviderConnection(
-        mux.createStream('metamask-provider'),
-        remotePort.sender,
-        "website",
-    );
+    if (processName == 'controller') {
+        eventEmitter.emit('controllerPort_assigned', remotePort)
+        remotePort.onDisconnect.addListener((msg) => { console.log("port disconnected", msg) })
+    } else {
+        const portStream = new PortStream(remotePort);
+
+        const mux = new ObjectMultiplex();
+        pump(portStream, mux, portStream, (err) => {
+            console.log(err)
+        })
+
+        setupProviderConnection(
+            mux.createStream('qrl-provider'),
+            remotePort.sender,
+            "website",
+        );
+    }
 }
-
 
 browser.runtime.onConnect.addListener(connectRemote);
