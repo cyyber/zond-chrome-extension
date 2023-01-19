@@ -34,7 +34,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx", "src/background.js", "src/popup/qrllib-js.js", "src/contentScript.js", "src/inpage.js" ],
+    "tests/**/*.tsx"],
   "exclude": [
     "node_modules"
   ]
