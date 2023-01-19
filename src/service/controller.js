@@ -6,16 +6,12 @@ import PortStream from 'extension-port-stream';
 import ObjectMultiplex from 'obj-multiplex';
 import {setStore} from '../store/ionic-storage'
 
-export default async function connectPopuptoBackground() {
+export default async function connectPopuptoBackground(accounts) {
     const controllerPort = browser.runtime.connect({ name: 'controller' });
     controllerPort.onMessage.addListener(async (msg)=> {
         if(msg.method == "req_account") {
-            var store = await setStore()
-            var id = await store.get('qqq')
-            var user_details = await store.get(id)
-            let accounts = []
-            user_details.wallet.map((i)=>{accounts.push(i.address)})
             controllerPort.postMessage({accounts: accounts})
+            window.close()
         }
     })
 }

@@ -39,24 +39,9 @@ export default defineComponent({
         IonButton,
         IonTitle
     },
-    data() {
-        return {account: ["ad", "fd"]}
-    },
-    watch: {
-        accountExists() {
-            // var account = []
-            console.log("reached here", this.account)
-            if(this.account.length > 1) {
-                return router.push({path:'/login'})
-            } 
-        }
-    },
     methods: {
         dashBoard() {
-            console.log(
-                "reached here"
-            )
-            this.$router.push({path: '/login'})
+            this.$router.push({path: `/login/${this.$route.query.task}`})
         }
     },
     setup() {

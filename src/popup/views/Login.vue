@@ -81,10 +81,18 @@ export default defineComponent({
             var id = await store.get(this.password)
             var user_details = await store.get(id)
             if(user_details.username) {
-                this.$router.push({path: `/app/${id}`})
-                return
+                switch(this.$route.params.task) {
+                    case "login":
+                        this.$router.push({path: `/app/${id}`});
+                        return
+                    case "connect":
+                        this.$router.push({path: `/connect/${id}`});
+                        return
+                    default:
+                        this.$router.push({path: `/app/${id}`});
+                        return
+                }
             }
-            // this.$router.push({path: '/login'})
         },
         async isNewUser() {
             var store = await setStore()

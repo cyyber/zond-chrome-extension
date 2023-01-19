@@ -46,9 +46,6 @@ async function setupStreams() {
   });
   const extensionPort = browser.runtime.connect({ name: CONTENT_SCRIPT });
   const extensionStream = new PortStream(extensionPort);
-  extensionPort.onMessage.addListener((msg)=> {
-    console.log("got message in contentscript", msg)
-  })
 
   // create and connect channel muxers
   // so we can handle the channels individually
@@ -73,7 +70,7 @@ function forwardTrafficBetweenMuxes(channelName, muxA, muxB) {
   const channelB = muxB.createStream(channelName);
   pump(channelA, channelB, channelA, (error) =>
     console.debug(
-      `MetaMask: Muxed traffic for channel "${channelName}" failed.`,
+      `QRL: Muxed traffic for channel "${channelName}" failed.`,
       error,
     ),
   );

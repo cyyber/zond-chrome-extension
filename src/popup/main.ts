@@ -3,6 +3,7 @@ import { createApp, h } from 'vue'
 import Welcome from './views/Welcome.vue';
 import Account from './views/AccountDetails.vue'
 import Splash from './views/Splash.vue'
+import Connect from './views/Connect.vue'
 import App from './App.vue'
 
 // import router from '../router';
@@ -32,7 +33,6 @@ import '../theme/variables.css';
 // import Vue from 'vue'
 import {router} from "./router"
 // import connectbackground from "../service/controller"
-import connectPopuptoBackground from '../service/controller'
 
 // Vue.use(VueRouter)
 
@@ -57,7 +57,6 @@ const waitForQRLLIB = (callBack: () => any) => {
     // Test the QRLLIB object has the str2bin function.
     // This is sufficient to tell us QRLLIB has loaded.
       if (typeof QRLLIB.str2bin === 'function') {
-        connectPopuptoBackground()
         callBack();
       } else {
         return waitForQRLLIB(callBack);

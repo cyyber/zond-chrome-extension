@@ -4,15 +4,16 @@ import Wallet from './views/Wallet.vue'
 import Welcome from './views/Welcome.vue'
 import Login from './views/Login.vue'
 import Splash from './views/Splash.vue'
-import Account from './views/AccountDetails.vue'
+import Connect from './views/Connect.vue'
 
 
 const routes = [
-    {path: '/', redirect: '/account'},
+    {path: '/', redirect: '/welcome'},
     {path: '/splash', component: Splash},
     { path: '/welcome', component: Welcome },
-    { path : '/login', component:Login},
-    { path: '/app/:id', component: Wallet }
+    { path : '/login/:task', component:Login},
+    { path: '/app/:id', component: Wallet },
+    { path: '/connect/:id', component: Connect }
 ]
 
 export const router = createRouter({

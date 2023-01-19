@@ -12,7 +12,7 @@ function setupProviderConnection(outStream, sender, subjectType) {
     engine.push(async (req, res, next, end) => {
         if (req.method == "eth_requestAccounts") {
             let extensionURL = browser.runtime.getURL('popup.html');
-            await browser.tabs.create({ url: extensionURL })
+            await browser.tabs.create({ url: extensionURL+'?task=connect' })
             let controllerPort = await once(eventEmitter, "controllerPort_assigned")
             controllerPort[0].postMessage({ method: "req_account" })
             controllerPort[0].onMessage.addListener((msg) => {
