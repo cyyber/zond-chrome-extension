@@ -22,7 +22,7 @@
     "@metamask/post-message-stream": "^6.0.0",
     "@metamask/providers": "^9.1.0",
     "@prajjawal/post-message-stream": "^1.1.0",
-    "@prajjawal/qrl_providers": "file:../providers/prajjawal-qrl_providers-1.0.0.tgz",
+    "@prajjawal/qrl_providers": "^1.1.0",
     "@theqrl/qrllib-browserify": "^1.0.0",
     "assert-browserify": "^2.0.0",
     "brfs": "^2.0.2",
