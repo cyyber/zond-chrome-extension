@@ -26,6 +26,15 @@
         </ion-row>
         <ion-row>
             <ion-col></ion-col>
+            <ion-col>
+                <ion-button expand="full">
+                    View Connected Sites
+                </ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col></ion-col>
         </ion-row>
         <ion-row>
             <ion-col></ion-col>

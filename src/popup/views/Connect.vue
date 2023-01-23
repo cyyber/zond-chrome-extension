@@ -79,7 +79,7 @@ export default defineComponent({
                 i["checked"] = false
             })
         },
-        connectToApp() {
+        async connectToApp() {
             let acc_arr:Array<string> = []
             console.log(this.result.wallet)
             this.result.wallet.map((i)=> {
@@ -87,7 +87,13 @@ export default defineComponent({
                     acc_arr.push(i.address)
                 }
             })
-            connectPopuptoBackground(acc_arr)
+            let controllerPort = await connectPopuptoBackground()
+            controllerPort.onMessage.addListener(async (msg)=> {
+                if(msg.method == "req_account") {
+                    controllerPort.postMessage({accounts: acc_arr})
+                    window.close()
+                }
+            })
         }
     }
 })
