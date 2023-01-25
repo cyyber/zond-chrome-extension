@@ -71,32 +71,39 @@ function controllerHandler(port, method, value) {
     switch(method) {
         case("get_connectedSites"): 
             {
-                store.get(null, function(items) {
+                store.get(null).then(function(items) {
                     var allKeys = Object.keys(items);
-                    allKeys.filter((key) => {
-                        items[key].includes(value["account"])
+                    var allKeysFiltered = allKeys.filter((key) => {
+                        let accs = items[key]
+                        console.log(accs)
+                        if(Array.isArray(accs)) {
+                            return accs.includes(value["account"])
+                        } else {
+                            return false
+                        }
                     })
-                    port.postMessage({get_connectedSites: allKeys})
+                    port.postMessage({method: "get_connectedSites", value: allKeysFiltered})
                 });
             }
             break;
-        case("remove_connectedSite"):
+        case("remove_connectedSites"):
             {
                 store.get([value["site"]]).then((result) => {
-                    if(result[value["site"]]) {
-                        let acc_array = result[value["site"]]
-                        acc_array.filter(item => item != value["account"])
-                        if (acc_array.length > 0) {
-                            store.set({[value["site"]]: acc_array}).then(() => {
-                                port.postMessage({remove_connectedSites: value})
+                    if(result[value["site"]] && Array.isArray(result[value["site"]])) {
+                        let res_array = result[value["site"]]
+                        let acc_array = res_array
+                        let acc_array_filtered = acc_array.filter(item => item !== value["account"])
+                        if (acc_array_filtered.length > 0) {
+                            store.set({[value.site]: acc_array_filtered}).then(() => {
+                                port.postMessage({method: "remove_connectedSites", value: value})
                             })
                         } else {
                             store.remove([value["site"]]).then(() => {
-                                port.postMessage({remove_connectedSites: value})
+                                port.postMessage({method: "remove_connectedSites", value: value})
                             })
                         }
                     } else {
-                        port.postMessage({remove_connectedSites: value})
+                        port.postMessage({method: "remove_connectedSites", value: value})
                     }
                 })
             }
