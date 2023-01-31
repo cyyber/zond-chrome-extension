@@ -54,6 +54,27 @@ function setupProviderConnection(outStream, sender, subjectType) {
                     })
                 }
                 break;
+            case("eth_sign"):
+                {
+                    let extensionURL = browser.runtime.getURL('popup.html');
+                    await browser.tabs.create({ url: extensionURL+'?task=sign&account='+req.params[0]+'&source='+origin+'&message='+req.params[1] })
+                    let controllerPort = await once(eventEmitter, "controllerPort_assigned")
+                    // controllerPort[0].postMessage({ method: "eth_sign", params: msg.params })
+                    controllerPort[0].onMessage.addListener((msg) => {
+                        if(msg.method == "eth_sign") {
+                            console.log(msg)
+                            if(msg.error == null) {
+                                Object.assign(res, {
+                                    result: msg.signature
+                                })
+                                end()
+                            } else {
+                                end(new Error(`QRL Message Signature: ${msg.error}`))
+                            }
+                        }
+                    })
+                }
+                break;
             default:
                 break;
         }

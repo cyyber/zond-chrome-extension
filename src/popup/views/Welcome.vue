@@ -41,7 +41,12 @@ export default defineComponent({
     },
     methods: {
         dashBoard() {
-            this.$router.push({path: `/login/${this.$route.query.task}`})
+            console.log(this.$route.query.account)
+            if (this.$route.query.task == 'sign') {
+                this.$router.push({path: '/sign', query: {source: this.$route.query.source, account: this.$route.query.account, message: this.$route.query.message}})
+            } else {
+                this.$router.push({path: `/login/${this.$route.query.task}`})
+            }
         }
     },
     setup() {

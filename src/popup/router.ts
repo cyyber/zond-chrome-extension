@@ -5,6 +5,7 @@ import Welcome from './views/Welcome.vue'
 import Login from './views/Login.vue'
 import Splash from './views/Splash.vue'
 import Connect from './views/Connect.vue'
+import Sign from './views/Sign.vue'
 
 
 const routes = [
@@ -13,7 +14,8 @@ const routes = [
     { path: '/welcome', component: Welcome },
     { path : '/login/:task', component:Login},
     { path: '/app/:id', component: Wallet },
-    { path: '/connect/:id', component: Connect }
+    { path: '/connect/:id', component: Connect },
+    { path: '/sign', component: Sign }
 ]
 
 export const router = createRouter({
