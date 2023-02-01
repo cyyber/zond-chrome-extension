@@ -28,8 +28,8 @@ function injectScript() {
         scriptTag.setAttribute('async', 'false');
         // scriptTag.textContent = inpage2.toString().slice(10,-2);
         // scriptTag.setAttribute('src', 'chrome-extension://plgbbiohldekakchldmmjdjaedchbnkg/js/inpage.js')
-        // scriptTag.setAttribute('src', 'https://res.cloudinary.com/dz24nbed8/raw/upload/v1662028778/inpage_browserify_zgxfwy.js')
-        scriptTag.setAttribute('src', "https://res.cloudinary.com/dz24nbed8/raw/upload/v1673429279/inpage_browserify-2_vlesi4.js")
+        // scriptTag.setAttribute('src', "https://res.cloudinary.com/dz24nbed8/raw/upload/v1673429279/inpage_browserify-2_vlesi4.js")
+        scriptTag.setAttribute('src', "https://res.cloudinary.com/dz24nbed8/raw/upload/v1675271420/inpage_browserify_ruxgmm.js")
       
         container.insertBefore(scriptTag, container.children[0]);
         container.removeChild(scriptTag);

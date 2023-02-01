@@ -15,7 +15,7 @@ function setupProviderConnection(outStream, sender, subjectType) {
     let origin = senderUrl.origin
     engine.push(async (req, res, next, end) => {
         switch(req.method) {
-            case("eth_requestAccounts"):
+            case("zond_requestAccounts"):
                 {
                     store.get([origin]).then(async (value) => {
                         if (value[origin]) {
@@ -42,7 +42,7 @@ function setupProviderConnection(outStream, sender, subjectType) {
                     })
                 } 
                 break; 
-            case("eth_accounts"):
+            case("zond_accounts"):
                 {
                     store.get([origin]).then(async (value) => {
                         if (value[origin]) {
@@ -54,14 +54,14 @@ function setupProviderConnection(outStream, sender, subjectType) {
                     })
                 }
                 break;
-            case("eth_sign"):
+            case("zond_sign"):
                 {
                     let extensionURL = browser.runtime.getURL('popup.html');
                     await browser.tabs.create({ url: extensionURL+'?task=sign&account='+req.params[0]+'&source='+origin+'&message='+req.params[1] })
                     let controllerPort = await once(eventEmitter, "controllerPort_assigned")
-                    // controllerPort[0].postMessage({ method: "eth_sign", params: msg.params })
+                    // controllerPort[0].postMessage({ method: "zond_sign", params: msg.params })
                     controllerPort[0].onMessage.addListener((msg) => {
-                        if(msg.method == "eth_sign") {
+                        if(msg.method == "zond_sign") {
                             console.log(msg)
                             if(msg.error == null) {
                                 Object.assign(res, {

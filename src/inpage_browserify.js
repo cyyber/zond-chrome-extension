@@ -6209,11 +6209,11 @@
               if (!payload.jsonrpc) {
                   payload.jsonrpc = '2.0';
               }
-              if (payload.method === 'eth_accounts' ||
-                  payload.method === 'eth_requestAccounts') {
+              if (payload.method === 'zond_accounts' ||
+                  payload.method === 'zond_requestAccounts') {
                   // handle accounts changing
                   cb = (err, res) => {
-                      this._handleAccountsChanged(res.result || [], payload.method === 'eth_accounts');
+                      this._handleAccountsChanged(res.result || [], payload.method === 'zond_accounts');
                       callback(err, res);
                   };
               }
@@ -6301,7 +6301,7 @@
        *
        * @param accounts - The new accounts value.
        * @param isEthAccounts - Whether the accounts value was returned by
-       * a call to eth_accounts.
+       * a call to zond_accounts.
        */
       _handleAccountsChanged(accounts, isEthAccounts = false) {
           let _accounts = accounts;
@@ -6318,10 +6318,10 @@
           }
           // emit accountsChanged if anything about the accounts array has changed
           if (!fast_deep_equal_1.default(this._state.accounts, _accounts)) {
-              // we should always have the correct accounts even before eth_accounts
+              // we should always have the correct accounts even before zond_accounts
               // returns
               if (isEthAccounts && this._state.accounts !== null) {
-                  this._log.error(`MetaMask: 'eth_accounts' unexpectedly updated accounts. Please report this bug.`, _accounts);
+                  this._log.error(`MetaMask: 'zond_accounts' unexpectedly updated accounts. Please report this bug.`, _accounts);
               }
               this._state.accounts = _accounts;
               // handle selectedAddress
@@ -6522,9 +6522,9 @@
       // Deprecated Methods
       //====================
       /**
-       * Equivalent to: ethereum.request('eth_requestAccounts')
+       * Equivalent to: ethereum.request('zond_requestAccounts')
        *
-       * @deprecated Use request({ method: 'eth_requestAccounts' }) instead.
+       * @deprecated Use request({ method: 'zond_requestAccounts' }) instead.
        * @returns A promise that resolves to an array of addresses.
        */
       enable() {
@@ -6534,7 +6534,7 @@
           }
           return new Promise((resolve, reject) => {
               try {
-                  this._rpcRequest({ method: 'eth_requestAccounts', params: [] }, utils_1.getRpcPromiseCallback(resolve, reject));
+                  this._rpcRequest({ method: 'zond_requestAccounts', params: [] }, utils_1.getRpcPromiseCallback(resolve, reject));
               }
               catch (error) {
                   reject(error);
@@ -6572,13 +6572,13 @@
       _sendSync(payload) {
           let result;
           switch (payload.method) {
-              case 'eth_accounts':
+              case 'zond_accounts':
                   result = this.selectedAddress ? [this.selectedAddress] : [];
                   break;
-              case 'eth_coinbase':
+              case 'zond_coinbase':
                   result = this.selectedAddress || null;
                   break;
-              case 'eth_uninstallFilter':
+              case 'zond_uninstallFilter':
                   this._rpcRequest(payload, utils_1.NOOP);
                   result = true;
                   break;
@@ -6893,7 +6893,7 @@
       },
       warnings: {
           // deprecated methods
-          enableDeprecation: `MetaMask: 'ethereum.enable()' is deprecated and may be removed in the future. Please use the 'eth_requestAccounts' RPC method instead.\nFor more information, see: https://eips.ethereum.org/EIPS/eip-1102`,
+          enableDeprecation: `MetaMask: 'ethereum.enable()' is deprecated and may be removed in the future. Please use the 'zond_requestAccounts' RPC method instead.\nFor more information, see: https://eips.ethereum.org/EIPS/eip-1102`,
           sendDeprecation: `MetaMask: 'ethereum.send(...)' is deprecated and may be removed in the future. Please use 'ethereum.sendAsync(...)' or 'ethereum.request(...)' instead.\nFor more information, see: https://eips.ethereum.org/EIPS/eip-1193`,
           // deprecated events
           events: {
@@ -6903,8 +6903,8 @@
               notification: `MetaMask: The event 'notification' is deprecated and may be removed in the future. Use 'message' instead.\nFor more information, see: https://eips.ethereum.org/EIPS/eip-1193#message`,
           },
           rpc: {
-              ethDecryptDeprecation: `MetaMask: The RPC method 'eth_decrypt' is deprecated and may be removed in the future.\nFor more information, see: https://medium.com/metamask/metamask-api-method-deprecation-2b0564a84686`,
-              ethGetEncryptionPublicKeyDeprecation: `MetaMask: The RPC method 'eth_getEncryptionPublicKey' is deprecated and may be removed in the future.\nFor more information, see: https://medium.com/metamask/metamask-api-method-deprecation-2b0564a84686`,
+              ethDecryptDeprecation: `MetaMask: The RPC method 'zond_decrypt' is deprecated and may be removed in the future.\nFor more information, see: https://medium.com/metamask/metamask-api-method-deprecation-2b0564a84686`,
+              ethGetEncryptionPublicKeyDeprecation: `MetaMask: The RPC method 'zond_getEncryptionPublicKey' is deprecated and may be removed in the future.\nFor more information, see: https://medium.com/metamask/metamask-api-method-deprecation-2b0564a84686`,
           },
           // misc
           experimentalMethods: `MetaMask: 'ethereum._metamask' exposes non-standard, experimental methods. They may be removed or changed without warning.`,
@@ -6933,12 +6933,12 @@
       };
       return (req, _res, next) => {
           if (sentWarnings.ethDecryptDeprecation === false &&
-              req.method === 'eth_decrypt') {
+              req.method === 'zond_decrypt') {
               log.warn(messages_1.default.warnings.rpc.ethDecryptDeprecation);
               sentWarnings.ethDecryptDeprecation = true;
           }
           else if (sentWarnings.ethGetEncryptionPublicKeyDeprecation === false &&
-              req.method === 'eth_getEncryptionPublicKey') {
+              req.method === 'zond_getEncryptionPublicKey') {
               log.warn(messages_1.default.warnings.rpc.ethGetEncryptionPublicKeyDeprecation);
               sentWarnings.ethGetEncryptionPublicKeyDeprecation = true;
           }
@@ -7108,7 +7108,7 @@
   const createRpcWarningMiddleware_1 = require("./middleware/createRpcWarningMiddleware");
   // Constants
   exports.EMITTED_NOTIFICATIONS = Object.freeze([
-      'eth_subscription', // per eth-json-rpc-filters/subscriptionManager
+      'zond_subscription', // per eth-json-rpc-filters/subscriptionManager
   ]);
   // Utility functions
   /**

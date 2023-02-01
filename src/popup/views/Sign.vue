@@ -59,13 +59,13 @@ export default defineComponent({
     methods: {
         async sign() {
             let controllerPort = await connectPopuptoBackground()
-            controllerPort.postMessage({method: "eth_sign", signature: "messageSignature", error: null})
+            controllerPort.postMessage({method: "zond_sign", signature: "messageSignature", error: null})
             window.close()
 
         },
         async cancel() {
             let controllerPort = await connectPopuptoBackground()
-            controllerPort.postMessage({method: "eth_sign", signature: null, error: "User denied the signature"})
+            controllerPort.postMessage({method: "zond_sign", signature: null, error: "User denied the signature"})
             window.close()
         }
     }
