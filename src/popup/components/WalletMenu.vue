@@ -38,6 +38,7 @@ export default defineComponent({
                     address: string,
                     hexseed: string,
                     mnemonic: string,
+                    tokens: Array<Record<string, unknown>>
                 }>
             },
         }

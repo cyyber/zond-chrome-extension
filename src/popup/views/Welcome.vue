@@ -44,6 +44,10 @@ export default defineComponent({
             console.log(this.$route.query.account)
             if (this.$route.query.task == 'sign') {
                 this.$router.push({path: '/sign', query: {source: this.$route.query.source, account: this.$route.query.account, message: this.$route.query.message}})
+            } else if(this.$route.query.task == 'transaction') {
+                this.$router.push({path: '/login/transaction', query: {source: this.$route.query.source, account: this.$route.query.account, gas: this.$route.query.gas, value: this.$route.query.value, data: this.$route.query.data}})
+            } else if(this.$route.query.task == 'token') {
+                this.$router.push({path: '/login/token', query: {address: this.$route.query.address, symbol: this.$route.query.symbol, decimals: this.$route.query.decimals, image: this.$route.query.image}})
             } else {
                 this.$router.push({path: `/login/${this.$route.query.task}`})
             }

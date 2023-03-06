@@ -49,7 +49,7 @@
 </ion-content>
 </template>
 <script lang="ts">
-import connectPopuptoBackground from '@/service/controller';
+import {connectPopuptoBackground} from '@/service/controller';
 import { setStore } from '@/store/ionic-storage';
 import {IonHeader, IonContent, IonToolbar, IonGrid, IonRow, IonCol, IonButton, IonTitle, modalController} from '@ionic/vue'
 import {defineComponent} from 'vue'
@@ -84,6 +84,7 @@ export default defineComponent({
                     address: string,
                     hexseed: string,
                     mnemonic: string,
+                    tokens: Array<Record<string, unknown>>
                 }>
             },
         }

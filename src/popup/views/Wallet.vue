@@ -76,6 +76,18 @@
             </ion-col>
             <ion-icon></ion-icon>
           </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="full">
+                Assets
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="full">
+                Activity
+              </ion-button>
+            </ion-col>
+          </ion-row>
         </ion-grid>
         <ion-grid v-if="generating">
           <img id="loader" src="icons/loading.gif">
@@ -131,7 +143,7 @@ export default defineComponent({
     IonCard,
     IonCardTitle,
     IonCardHeader,
-},
+  },
   
   data() {
     return {
@@ -147,6 +159,7 @@ export default defineComponent({
         wallet: new Array<{
           name: string,
           balance: number,
+          tokens: Array<Record<string, unknown>>,
           address: string,
           hexseed: string,
           mnemonic: string,
@@ -270,14 +283,16 @@ export default defineComponent({
           this.result.wallet.push({
             name: String(this.accountname),
             balance: 0,
+            tokens: [],
             address: Q.getAddress(),
             hexseed: Q.getHexSeed(),
             mnemonic: Q.getMnemonic(),
           })
-          var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; }[] = []
+          var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; tokens: Array<Record<string, unknown>>}[] = []
           this.result.wallet.map((i) => {
             result_wallet_copy.push({
               name: i.name,
+              tokens: [],
               balance: i.balance,
               address: i.address,
               hexseed: i.hexseed,
@@ -305,7 +320,7 @@ export default defineComponent({
 <style>
 html {
   width: 400px !important;
-  height: 400px !important;
+  height: 800px !important;
 }
 </style>
 <style scoped>

@@ -6,6 +6,8 @@ import Login from './views/Login.vue'
 import Splash from './views/Splash.vue'
 import Connect from './views/Connect.vue'
 import Sign from './views/Sign.vue'
+import Transaction from './views/Transaction.vue'
+import AddTokens from './views/AddTokens.vue'
 
 
 const routes = [
@@ -15,7 +17,9 @@ const routes = [
     { path : '/login/:task', component:Login},
     { path: '/app/:id', component: Wallet },
     { path: '/connect/:id', component: Connect },
-    { path: '/sign', component: Sign }
+    { path: '/sign', component: Sign },
+    { path: '/transaction/:id', component: Transaction},
+    { path: '/token/:id', component: AddTokens}
 ]
 
 export const router = createRouter({

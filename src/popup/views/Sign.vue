@@ -36,7 +36,7 @@
     </ion-app>
 </template>
 <script lang="ts">
-import connectPopuptoBackground from '@/service/controller';
+import {connectPopuptoBackground} from '@/service/controller';
 import { IonApp, IonPage, IonHeader, IonContent, IonButton, IonCol, IonGrid, IonRow, IonTitle, IonToolbar, IonText } from '@ionic/vue';
 import { defineComponent } from 'vue';
 

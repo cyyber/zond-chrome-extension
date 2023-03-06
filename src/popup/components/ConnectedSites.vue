@@ -28,7 +28,7 @@
 </ion-content>
 </template>
 <script lang="ts">
-import connectPopuptoBackground from '@/service/controller';
+import {connectPopuptoBackground} from '@/service/controller';
 import { IonHeader, IonContent, IonToolbar, IonTitle, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonLabel, IonList, IonButton, modalController, IonIcon } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import {arrowBackOutline} from "ionicons/icons"

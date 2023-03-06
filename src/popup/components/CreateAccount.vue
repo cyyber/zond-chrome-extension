@@ -111,6 +111,7 @@ import { defineComponent } from 'vue'
 import { setStore } from '@/store/ionic-storage';
 import {Storage} from '@ionic/storage'
 import Mnemonic from '../components/Mnemonic.vue'
+import { recordExpression } from '@babel/types';
 require('../qrllib-js.js')
 
 export default defineComponent({
@@ -132,6 +133,7 @@ export default defineComponent({
                 address: string,
                 hexseed: string,
                 mnemonic: string,
+                tokens: Array<Record<string, unknown>>
                 }>
             },
             treeHeight: "10",
@@ -222,8 +224,9 @@ export default defineComponent({
                     address: Q.GetAddress(),
                     hexseed: Q.getHexSeed(),
                     mnemonic: Q.getMnemonic(),
+                    tokens: []
                 })
-                var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; }[] = []
+                var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; tokens: Array<Record<string, unknown>> }[] = []
                 this.result.wallet.map((i) => {
                     result_wallet_copy.push({
                     name: i.name,
@@ -231,6 +234,7 @@ export default defineComponent({
                     address: i.address,
                     hexseed: i.hexseed,
                     mnemonic: i.mnemonic,
+                    tokens: []
                     })
                 })
                 await this.store.set(String(this.id), {username: this.result.username, wallet: [...result_wallet_copy]})
@@ -253,15 +257,25 @@ export default defineComponent({
                 address: Q.GetAddress(),
                 hexseed: Q.GetSeed(),
                 mnemonic: Q.GetMnemonic(),
+                tokens: []
             })
-            var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; }[] = []
-            this.result.wallet.map((i) => {
+            var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; tokens: Array<Record<string, unknown>>}[] = []
+            this.result.wallet.map((i, idx) => {
                 result_wallet_copy.push({
                 name: i.name,
                 balance: i.balance,
                 address: i.address,
                 hexseed: i.hexseed,
                 mnemonic: i.mnemonic,
+                tokens: []
+                })
+                i.tokens.map((i)=>{
+                  result_wallet_copy[idx].tokens.push({
+                    address: i.address,
+                    decimals: i.decimals,
+                    image: i.image,
+                    symbol: i.symbol
+                  })
                 })
             })
             await this.store.set(String(this.id), {username: this.result.username, wallet: [...result_wallet_copy]})

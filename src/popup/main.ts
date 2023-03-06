@@ -1,16 +1,11 @@
 /* global QRLLIB */
 import { createApp, h } from 'vue'
 import Welcome from './views/Welcome.vue';
-import Account from './views/AccountDetails.vue'
-import Splash from './views/Splash.vue'
-import Connect from './views/Connect.vue'
-import App from './App.vue'
+import AddTokens from './views/AddTokens.vue'
 
 // import router from '../router';
-import { QRLLIBmodule } from '@theqrl/qrllib-browserify/dist/qrllib'
 import { IonicVue } from '@ionic/vue';
 import { createPinia } from 'pinia';
-// import { QRLLIBmodule } from 'qrllib/build/offline-libjsqrl'; // eslint-disable-line
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -73,10 +68,7 @@ const app = createApp({
   .use(router);
   
 async function startup() {
-  await QRLLIBmodule
-  waitForQRLLIB(() => {
-    app.mount('#app');
-  });
+  app.mount('#app');
 }
 
 startup();

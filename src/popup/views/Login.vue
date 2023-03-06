@@ -88,6 +88,12 @@ export default defineComponent({
                     case "connect":
                         this.$router.push({path: `/connect/${id}`});
                         return
+                    case "transaction":
+                        this.$router.push({path: `/transaction/${id}`, query: {source: this.$route.query.source, gas: this.$route.query.gas, value: this.$route.query.value, account: this.$route.query.account, data: this.$route.query.data}})
+                        return
+                    case "token":
+                        this.$router.push({path: `/token/${id}`, query: {address: this.$route.query.address, symbol: this.$route.query.symbol, decimals: this.$route.query.decimals, image: this.$route.query.image}})
+                        return
                     default:
                         this.$router.push({path: `/app/${id}`});
                         return

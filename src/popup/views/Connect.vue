@@ -32,7 +32,7 @@
 import { setStore } from '@/store/ionic-storage';
 import {IonApp, IonPage, IonHeader, IonContent, IonToolbar, IonTitle, IonGrid, IonCol, IonRow, IonItem, IonCheckbox, IonLabel, IonButton} from '@ionic/vue';
 import { defineComponent } from 'vue';
-import connectPopuptoBackground from '../../service/controller'
+import {connectPopuptoBackground} from '../../service/controller'
 
 export default defineComponent({
     name: 'Connect-flow',
@@ -44,6 +44,7 @@ export default defineComponent({
                 wallet: new Array<{
                     name: string,
                     balance: number,
+                    tokens: Array<Record<string, unknown>>,
                     address: string,
                     hexseed: string,
                     mnemonic: string,
