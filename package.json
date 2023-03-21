@@ -24,6 +24,7 @@
     "@prajjawal/post-message-stream": "^1.1.0",
     "@prajjawal/qrl_providers": "^1.1.0",
     "@theqrl/qrllib-browserify": "^1.0.0",
+    "@theqrl/wallet.js": "file:../postquantum-crypto-wallet/theqrl-wallet.js-0.0.1.tgz",
     "@theqrl/web3": "file:../web3/packages/@theqrl/web3",
     "@theqrl/web3-core-promievent": "^0.1.1",
     "@theqrl/web3-zond-accounts": "file:../web3/packages/@theqrl/web3-zond-accounts",

@@ -62,12 +62,11 @@
  </ion-content>
 </template>
 <script lang="ts">
-declare var dilithium: any
 import { IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonHeader, IonToolbar, IonTitle, IonItem, IonSelect, IonSelectOption, IonTextarea, modalController } from "@ionic/vue";
 import { defineComponent } from "vue";
 import {Storage} from '@ionic/storage'
 import { setStore } from '@/store/ionic-storage';
-require('../qrllib-js.js')
+import dilithiumWallet from '@theqrl/wallet.js'
 
 export default defineComponent({
     name: 'SendTransaction',
@@ -119,7 +118,7 @@ export default defineComponent({
         },
         sendTransaction(){
             let message = "sample transaction"
-            var d = dilithium.NewFromSeed(this.result.wallet[this.index?this.index:0].hexseed)
+            var d = dilithiumWallet.NewDilithiumFromSeed(this.result.wallet[this.index?this.index:0].hexseed)
             var signature = d.Sign(message)
             console.log(signature)
         },

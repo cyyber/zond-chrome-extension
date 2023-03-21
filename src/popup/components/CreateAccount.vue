@@ -102,17 +102,14 @@
 </ion-content>
 </template>
 <script lang="ts">
-/* global QRLLIB */
 /* eslint-disable */
-declare var dilithium: any
-import randomBytes from 'randombytes'
+// import randomBytes from 'randombytes'
 import {IonContent, IonGrid, IonRow, IonCol, IonButton, IonItem, IonLabel, IonRadio, IonHeader, IonInput, IonToggle, IonRadioGroup, IonListHeader, IonTitle, IonToolbar, modalController} from '@ionic/vue'
 import { defineComponent } from 'vue'
 import { setStore } from '@/store/ionic-storage';
 import {Storage} from '@ionic/storage'
 import Mnemonic from '../components/Mnemonic.vue'
-import { recordExpression } from '@babel/types';
-require('../qrllib-js.js')
+const dilithiumWallet = require('@theqrl/wallet.js')
 
 export default defineComponent({
     props:{
@@ -184,67 +181,8 @@ export default defineComponent({
             var wallet = await store.get(id)
             this.result = wallet
         },
-        async generateXmssWallet() {
-            this.generating = true
-            const toUint8Vector = (arr: any) => {
-                const vec = new QRLLIB.Uint8Vector();
-                for (let i = 0; i < arr.length; i += 1) {
-                vec.push_back(arr[i]);
-                }
-                return vec;
-            };
-            async function makeWallet(params: any) {
-                let XMSS_OBJECT = null
-                let hashFunction = null
-                if (params.hashFunction === 'SHA2_256') {
-                hashFunction = QRLLIB.eHashFunction.SHA2_256
-                }
-                if (params.hashFunction === 'SHAKE_128') {
-                hashFunction = QRLLIB.eHashFunction.SHAKE_128
-                }
-                if (params.hashFunction === 'SHAKE_256') {
-                hashFunction = QRLLIB.eHashFunction.SHAKE_256
-                }
-                const xmssHeight = parseInt(params.treeHeight)
-                const randomSeed = toUint8Vector(await randomBytes(48))
-                XMSS_OBJECT = await new QRLLIB.Xmss.fromParameters(randomSeed, xmssHeight, hashFunction)
-                return XMSS_OBJECT
-            }
-            async function gen(params: any) {
-                const Q = await makeWallet(params)
-                return Q
-            }
-            setTimeout(() => {
-                // hack to ensure DOM is re-rendered showing spinner
-                gen({ treeHeight: this.treeHeight, hashFunction: this.hashFunction }).then(async (Q) => {
-                this.generating = false
-                this.result.wallet.push({
-                    name: String(this.accountname),
-                    balance: 0,
-                    address: Q.GetAddress(),
-                    hexseed: Q.getHexSeed(),
-                    mnemonic: Q.getMnemonic(),
-                    tokens: []
-                })
-                var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; tokens: Array<Record<string, unknown>> }[] = []
-                this.result.wallet.map((i) => {
-                    result_wallet_copy.push({
-                    name: i.name,
-                    balance: i.balance,
-                    address: i.address,
-                    hexseed: i.hexseed,
-                    mnemonic: i.mnemonic,
-                    tokens: []
-                    })
-                })
-                await this.store.set(String(this.id), {username: this.result.username, wallet: [...result_wallet_copy]})
-                this.index = this.result.wallet.length - 1
-                await this.openAccountModal(String(this.id), this.index)
-                })   
-            }, 100);
-        },
         async dilithiumGenerate(){
-          var d = dilithium.New()
+          var d = dilithiumWallet.New()
           return d;
         },
         async generateWallet() {
@@ -254,8 +192,8 @@ export default defineComponent({
             this.result.wallet.push({
                 name: String(this.accountname),
                 balance: 0,
-                address: Q.GetAddress(),
-                hexseed: Q.GetSeed(),
+                address: '0x' + Buffer.from(Q.GetAddress()).toString('hex'),
+                hexseed: '0x' + Q.GetSeed().toString('hex'),
                 mnemonic: Q.GetMnemonic(),
                 tokens: []
             })

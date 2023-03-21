@@ -1,4 +1,3 @@
-/* global QRLLIB */
 import { createApp, h } from 'vue'
 import Welcome from './views/Welcome.vue';
 import AddTokens from './views/AddTokens.vue'
@@ -44,21 +43,6 @@ import {router} from "./router"
 // })
 
 const pinia = createPinia();
-
-
-
-const waitForQRLLIB = (callBack: () => any) => {
-  setTimeout(() => {
-    // Test the QRLLIB object has the str2bin function.
-    // This is sufficient to tell us QRLLIB has loaded.
-      if (typeof QRLLIB.str2bin === 'function') {
-        callBack();
-      } else {
-        return waitForQRLLIB(callBack);
-      }
-    return false;
-  }, 50);
-};
 
 const app = createApp({
   render: ()=>h(Welcome)
