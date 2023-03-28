@@ -43,7 +43,7 @@ export default defineComponent({
         dashBoard() {
             console.log(this.$route.query.account)
             if (this.$route.query.task == 'sign') {
-                this.$router.push({path: '/sign', query: {source: this.$route.query.source, account: this.$route.query.account, message: this.$route.query.message}})
+                this.$router.push({path: '/login/sign', query: {source: this.$route.query.source, account: this.$route.query.account, message: this.$route.query.message}})
             } else if(this.$route.query.task == 'transaction') {
                 this.$router.push({path: '/login/transaction', query: {source: this.$route.query.source, account: this.$route.query.account, gas: this.$route.query.gas, value: this.$route.query.value, data: this.$route.query.data}})
             } else if(this.$route.query.task == 'token') {

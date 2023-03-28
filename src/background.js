@@ -128,7 +128,7 @@ function setupProviderConnection(outStream, sender, subjectType) {
                                 }).then(
                                     function(value) {
                                         controllerPort[0].postMessage({method: "zond_sendTransaction_3", params: {success: true}})
-                                        Object.assign(res, {result: value})
+                                        Object.assign(res, {result: value.transactionHash})
                                         end()
                                     },
                                     function(error){
@@ -161,7 +161,7 @@ function setupProviderConnection(outStream, sender, subjectType) {
                 break;
             case('zond_getTransactionReceipt'):
                 {
-                    web3.zond.getTransactionReceipt((typeof req.params === String)?req.params:req.params[0].transactionHash).then((receipt)=>{
+                    web3.zond.getTransactionReceipt(req.params[0]).then((receipt)=>{
                         Object.assign(res, {
                             result: receipt
                         })

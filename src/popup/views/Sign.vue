@@ -37,9 +37,11 @@
 </template>
 <script lang="ts">
 import {connectPopuptoBackground} from '@/service/controller';
+import { setStore } from '@/store/ionic-storage';
 import { IonApp, IonPage, IonHeader, IonContent, IonButton, IonCol, IonGrid, IonRow, IonTitle, IonToolbar, IonText } from '@ionic/vue';
 import { defineComponent } from 'vue';
-
+import {Storage} from '@ionic/storage';
+import dilithiumWallet from '@theqrl/wallet.js';
 
 export default defineComponent({
     name:'User-signature',
@@ -56,12 +58,42 @@ export default defineComponent({
         IonButton,
         IonText
     },
+    data() {
+        return {
+            store: new Storage,
+            result: {
+                username: '',
+                wallet: new Array<{
+                    name: string,
+                    tokens: Array<Record<string, unknown>>,
+                    balance: number,
+                    address: string,
+                    hexseed: string,
+                    mnemonic: string,
+                }>
+            },
+        }
+    },
+    beforeMount(){
+        this.getWallets(String(this.$route.params.id))
+    },
     methods: {
+        async getWallets(id: string) {
+            var store = await setStore()
+            this.store = store
+            var wallet = await store.get(id)
+            this.result = wallet
+        },
         async sign() {
             let controllerPort = await connectPopuptoBackground()
-            controllerPort.postMessage({method: "zond_sign", signature: "messageSignature", error: null})
-            window.close()
-
+            this.result.wallet.map(async (i) => {
+                if(i.address == this.$route.query.account) {
+                    let dilithium = await dilithiumWallet.NewDilithiumFromSeed(Buffer.from(i.hexseed.slice(2), 'hex'))
+                    let signedMessage = await dilithium.Sign(Buffer.from(String(this.$route.query.message)))
+                    controllerPort.postMessage({method: "zond_sign", signature: '0x' + Buffer.from(signedMessage).toString('hex'), error: null})
+                    window.close()
+                }
+            })
         },
         async cancel() {
             let controllerPort = await connectPopuptoBackground()

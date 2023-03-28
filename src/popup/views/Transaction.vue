@@ -155,6 +155,7 @@ export default defineComponent({
                         value: msg.params[0].value,
                         to: msg.params[0].to?msg.params[0].to:'',
                     }, hexseed)
+                    console.log(signedTx)
                     controllerPort.postMessage({method: "zond_sendTransaction_2", signedTx: signedTx})
                     this.approve = false
                 }

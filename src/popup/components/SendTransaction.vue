@@ -116,10 +116,10 @@ export default defineComponent({
             var wallet = await store.get(id)
             this.result = wallet
         },
-        sendTransaction(){
+        async sendTransaction(){
             let message = "sample transaction"
-            var d = dilithiumWallet.NewDilithiumFromSeed(this.result.wallet[this.index?this.index:0].hexseed)
-            var signature = d.Sign(message)
+            var d = await dilithiumWallet.NewDilithiumFromSeed(this.result.wallet[this.index?this.index:0].hexseed)
+            var signature = await d.Sign(message)
             console.log(signature)
         },
         backToApp() {

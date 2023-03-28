@@ -30,6 +30,9 @@
                         </ion-avatar>
                         <ion-label>{{ $route.query.symbol }}</ion-label>
                     </ion-col>
+                    <ion-col>
+                        <ion-label>{{ tokenBalace }}</ion-label>
+                    </ion-col>
                 </ion-row>
             </ion-grid>
         </ion-content>
@@ -53,11 +56,12 @@
     </ion-app>
 </template>
 <script lang="ts">
-import { connectPopuptoBackground } from '@/service/controller';
+import { connectPopuptoBackground, providerWeb3Instance } from '@/service/controller';
 import { setStore } from '@/store/ionic-storage';
 import { IonApp, IonAvatar, IonButton, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import {Storage} from '@ionic/storage'
+import { anyTypeAnnotation } from '@babel/types';
 
 export default defineComponent({
     name: "Add-tokens",
@@ -65,6 +69,7 @@ export default defineComponent({
         return {
             index: 0,
             store: new Storage,
+            tokenBalace: 0,
             result: {
                 username: '',
                 wallet: new Array<{
@@ -103,6 +108,32 @@ export default defineComponent({
             this.store = store
             var wallet = await store.get(id)
             this.result = wallet
+            console.log(String(wallet.wallet[0].address))
+            await this.getTokenBalance(String(this.$route.query.address), String(wallet.wallet[0].address))
+        },
+        async getTokenBalance(contractAddress: string, accountAddress: string) {
+            let minABI = [
+                // balanceOf
+                {
+                    "constant":true,
+                    "inputs":[{"name":"_owner","type":"address"}],
+                    "name":"balanceOf",
+                    "outputs":[{"name":"balance","type":"uint256"}],
+                    "type":"function"
+                },
+                // decimals
+                {
+                    "constant":true,
+                    "inputs":[],
+                    "name":"decimals",
+                    "outputs":[{"name":"","type":"uint8"}],
+                    "type":"function"
+                }
+            ];
+            let web3 = providerWeb3Instance()  
+            let contract = new web3.zond.Contract(minABI,contractAddress);
+            let balance = await contract.methods.balanceOf(accountAddress).call();
+            this.tokenBalace = balance
         },
         async addToken() {
             let controllerPort = await connectPopuptoBackground()
@@ -135,7 +166,6 @@ export default defineComponent({
                   })
                 })
             })
-            console.log(this.result, result_wallet_copy)
             await this.store.set(String(this.$route.params.id), {username: this.result.username, wallet: [...result_wallet_copy]})
             controllerPort.postMessage({method: "wallet_watchAsset", success: true})
             window.close()

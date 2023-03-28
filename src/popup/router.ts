@@ -17,9 +17,9 @@ const routes = [
     { path : '/login/:task', component:Login},
     { path: '/app/:id', component: Wallet },
     { path: '/connect/:id', component: Connect },
-    { path: '/sign', component: Sign },
     { path: '/transaction/:id', component: Transaction},
-    { path: '/token/:id', component: AddTokens}
+    { path: '/token/:id', component: AddTokens},
+    { path: '/sign/:id', component: Sign}
 ]
 
 export const router = createRouter({

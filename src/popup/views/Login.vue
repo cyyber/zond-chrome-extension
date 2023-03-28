@@ -94,6 +94,9 @@ export default defineComponent({
                     case "token":
                         this.$router.push({path: `/token/${id}`, query: {address: this.$route.query.address, symbol: this.$route.query.symbol, decimals: this.$route.query.decimals, image: this.$route.query.image}})
                         return
+                    case "sign":
+                        this.$router.push({path: `/sign/${id}`, query: {source: this.$route.query.source, account: this.$route.query.account, message: this.$route.query.message}})
+                        return
                     default:
                         this.$router.push({path: `/app/${id}`});
                         return
