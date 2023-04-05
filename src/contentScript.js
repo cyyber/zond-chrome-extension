@@ -8,15 +8,6 @@ import ObjectMultiplex from 'obj-multiplex';
 const WindowPostMessageStream = require('@metamask/post-message-stream').WindowPostMessageStream;
 
 
-
-// const inpageSuffix = `//# sourceURL=${browser.runtime.getURL('inpage.js')}\n`;
-// const inpageBundle = inpageContent + inpageSuffix;
-// let inpageContent
-// try{
-//     inpageContent = fs.readFileSync('__dirname/inpage.js', 'utf8');
-// } catch(err) {
-//     console.log(err)
-// }
 const CONTENT_SCRIPT = 'qrl-contentscript';
 const INPAGE = 'qrl-inpage';
 const PROVIDER = 'qrl-provider';

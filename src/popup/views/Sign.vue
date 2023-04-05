@@ -41,7 +41,7 @@ import { setStore } from '@/store/ionic-storage';
 import { IonApp, IonPage, IonHeader, IonContent, IonButton, IonCol, IonGrid, IonRow, IonTitle, IonToolbar, IonText } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import {Storage} from '@ionic/storage';
-import dilithiumWallet from '@theqrl/wallet.js';
+import Dilithium from '@theqrl/wallet.js/src/dilithium';
 
 export default defineComponent({
     name:'User-signature',
@@ -88,8 +88,8 @@ export default defineComponent({
             let controllerPort = await connectPopuptoBackground()
             this.result.wallet.map(async (i) => {
                 if(i.address == this.$route.query.account) {
-                    let dilithium = await dilithiumWallet.NewDilithiumFromSeed(Buffer.from(i.hexseed.slice(2), 'hex'))
-                    let signedMessage = await dilithium.Sign(Buffer.from(String(this.$route.query.message)))
+                    let dilithium = new Dilithium(Buffer.from(i.hexseed.slice(2), 'hex'))
+                    let signedMessage = await dilithium.sign(Buffer.from(String(this.$route.query.message)))
                     controllerPort.postMessage({method: "zond_sign", signature: '0x' + Buffer.from(signedMessage).toString('hex'), error: null})
                     window.close()
                 }

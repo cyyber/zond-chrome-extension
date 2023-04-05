@@ -145,17 +145,17 @@ export default defineComponent({
             controllerPort.onMessage.addListener(async (msg) => {
                 if(msg.method == "zond_sendTransaction_2" && msg.params != null && this.approve) {
                     this.signing = true
+                    let nonce = await web3.zond.getTransactionCount(msg.params[0].from)
                     let signedTx = await web3.zond.accounts.signTransaction({
                         from: msg.params[0].from,
                         data: msg.params[0].data,
-                        nonce: msg.params[0].nonce,
+                        nonce: msg.params[0].nonce?msg.params[0].nonce:nonce,
                         chainId: msg.params[0].chainId?msg.params[0].chainId:"0x1",
                         gas: msg.params[0].gas,
                         gasPrice: msg.params[0].gasPrice,
                         value: msg.params[0].value,
                         to: msg.params[0].to?msg.params[0].to:'',
                     }, hexseed)
-                    console.log(signedTx)
                     controllerPort.postMessage({method: "zond_sendTransaction_2", signedTx: signedTx})
                     this.approve = false
                 }

@@ -82,7 +82,6 @@ export default defineComponent({
         },
         async connectToApp() {
             let acc_arr:Array<string> = []
-            console.log(this.result.wallet)
             this.result.wallet.map((i)=> {
                 if(i.checked) {
                     acc_arr.push(i.address)

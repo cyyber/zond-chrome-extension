@@ -109,7 +109,7 @@ import { defineComponent } from 'vue'
 import { setStore } from '@/store/ionic-storage';
 import {Storage} from '@ionic/storage'
 import Mnemonic from '../components/Mnemonic.vue'
-const dilithiumWallet = require('@theqrl/wallet.js')
+import {Dilithium} from '@theqrl/wallet.js/src/dilithium'
 
 export default defineComponent({
     props:{
@@ -182,7 +182,7 @@ export default defineComponent({
             this.result = wallet
         },
         async dilithiumGenerate(){
-          var d = dilithiumWallet.New()
+          var d = new Dilithium()
           return d;
         },
         async generateWallet() {
@@ -192,9 +192,9 @@ export default defineComponent({
             this.result.wallet.push({
                 name: String(this.accountname),
                 balance: 0,
-                address: '0x' + Buffer.from(Q.GetAddress()).toString('hex'),
-                hexseed: '0x' + Q.GetSeed().toString('hex'),
-                mnemonic: Q.GetMnemonic(),
+                address: '0x' + Buffer.from(Q.getAddress()).toString('hex'),
+                hexseed: '0x' + Q.getSeed().toString('hex'),
+                mnemonic: Q.getMnemonic(),
                 tokens: []
             })
             var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; tokens: Array<Record<string, unknown>>}[] = []

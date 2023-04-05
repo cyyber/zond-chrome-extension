@@ -108,7 +108,6 @@ export default defineComponent({
             this.store = store
             var wallet = await store.get(id)
             this.result = wallet
-            console.log(String(wallet.wallet[0].address))
             await this.getTokenBalance(String(this.$route.query.address), String(wallet.wallet[0].address))
         },
         async getTokenBalance(contractAddress: string, accountAddress: string) {

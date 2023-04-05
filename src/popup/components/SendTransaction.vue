@@ -66,7 +66,7 @@ import { IonContent, IonGrid, IonRow, IonCol, IonInput, IonButton, IonHeader, Io
 import { defineComponent } from "vue";
 import {Storage} from '@ionic/storage'
 import { setStore } from '@/store/ionic-storage';
-import dilithiumWallet from '@theqrl/wallet.js'
+import Dilithium from '@theqrl/wallet.js/src/dilithium'
 
 export default defineComponent({
     name: 'SendTransaction',
@@ -118,9 +118,8 @@ export default defineComponent({
         },
         async sendTransaction(){
             let message = "sample transaction"
-            var d = await dilithiumWallet.NewDilithiumFromSeed(this.result.wallet[this.index?this.index:0].hexseed)
+            var d = new Dilithium(this.result.wallet[this.index?this.index:0].hexseed)
             var signature = await d.Sign(message)
-            console.log(signature)
         },
         backToApp() {
             return modalController.dismiss()

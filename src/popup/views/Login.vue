@@ -72,7 +72,6 @@ export default defineComponent({
                     username: this.username,
                     wallet: []
                 }
-                console.log("username is", this.username)
                 await store.set(this.password, user_id)
                 await store.set(user_id, account_obj)
                 this.$router.push({path: `/app/${user_id}`})

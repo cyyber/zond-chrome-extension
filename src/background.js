@@ -17,7 +17,7 @@ function setupProviderConnection(outStream, sender, subjectType) {
     let senderUrl = new URL(sender.url)
     let origin = senderUrl.origin
     engine.push(async (req, res, next, end) => {
-        console.log("req method", req)
+        console.log(req)
         switch(req.method) {
             case("zond_requestAccounts"):
                 {
@@ -56,6 +56,24 @@ function setupProviderConnection(outStream, sender, subjectType) {
                             end()
                         }
                     })
+                }
+                break;
+            case("zond_getBalance"):
+                {
+                    web3.zond.getBalance(req.params[0]).then((balance) => {
+                        Object.assign(res, {
+                            result: balance
+                        })
+                        end()
+                    })
+                }
+                break;
+            case("zond_gasPrice"):
+                {
+                    Object.assign(res, {
+                        result: "1000"
+                    })
+                    end()
                 }
                 break;
             case("zond_sign"):
@@ -147,6 +165,16 @@ function setupProviderConnection(outStream, sender, subjectType) {
                         result: txCount
                     })
                     end()
+                }
+                break;
+            case("zond_getTransactionByHash"):
+                {
+                    web3.zond.getTransaction(req.params[0]).then((tx) => {
+                        Object.assign(res, {
+                            result: tx
+                        })
+                        end()
+                    })
                 }
                 break;
             case("zond_getBlockByNumber"):
@@ -247,7 +275,6 @@ function setupProviderConnection(outStream, sender, subjectType) {
     const providerStream = createEngineStream({ engine });
     pump(outStream, providerStream, outStream, (err) => {
         outStream.destroy(err)
-        // console.log("Provider connection error", err)
     });
 
 }
@@ -260,7 +287,6 @@ function controllerHandler(port, method, value) {
                     var allKeys = Object.keys(items);
                     var allKeysFiltered = allKeys.filter((key) => {
                         let accs = items[key]
-                        console.log(accs)
                         if(Array.isArray(accs)) {
                             return accs.includes(value["account"])
                         } else {
