@@ -17,7 +17,6 @@ function setupProviderConnection(outStream, sender, subjectType) {
     let senderUrl = new URL(sender.url)
     let origin = senderUrl.origin
     engine.push(async (req, res, next, end) => {
-        console.log(req)
         switch(req.method) {
             case("zond_requestAccounts"):
                 {

@@ -12,7 +12,7 @@
     </ion-item>
     <!-- </ion-radio-group> -->
     <ion-button expand="block" v-on:click="openCreateAccountModal(String(id))">Create Account</ion-button>
-    <ion-button expand="block">Import Account</ion-button>
+    <ion-button expand="block" v-on:click="openImportAccountModal(String(id))">Import Account</ion-button>
     <ion-button v-on:click="backToApp" expand="block">Back</ion-button>
 </ion-content>
 </template>
@@ -20,7 +20,8 @@
 import { IonContent, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonButton, IonRadioGroup, IonRadio, modalController } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { setStore } from '@/store/ionic-storage';
-import CreateAccount from './CreateAccount.vue'
+import CreateAccount from './CreateAccount.vue';
+import ImportAccount from './ImportAccount.vue';
 
 export default defineComponent({
     props: {
@@ -68,6 +69,15 @@ export default defineComponent({
                 component: CreateAccount,
                 componentProps: {
                 id: id,
+                },
+            });
+            modal.present();
+        },
+        async openImportAccountModal(id: string) {
+            const modal = await modalController.create({
+                component: ImportAccount,
+                componentProps: {
+                    id: id,
                 },
             });
             modal.present();
