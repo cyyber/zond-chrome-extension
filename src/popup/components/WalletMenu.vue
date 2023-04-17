@@ -17,8 +17,8 @@
 </ion-content>
 </template>
 <script lang="ts">
-import { IonContent, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonButton, IonRadioGroup, IonRadio, modalController } from '@ionic/vue';
-import { defineComponent, ref } from 'vue';
+import { IonContent, IonItem, IonHeader, IonToolbar, IonTitle, IonButton, modalController } from '@ionic/vue';
+import { defineComponent } from 'vue';
 import { setStore } from '@/store/ionic-storage';
 import CreateAccount from './CreateAccount.vue';
 import ImportAccount from './ImportAccount.vue';
@@ -47,19 +47,16 @@ export default defineComponent({
     components: {
         IonContent,
         IonItem,
-        // IonLabel,
         IonHeader,
         IonToolbar,
         IonTitle,
         IonButton,
-        // IonRadioGroup,
-        // IonRadio
     },
     beforeMount(){
-        this.getWallets(String(this.id), Number(this.index))
+        this.getWallets(String(this.id))
     },
     methods: {
-        async getWallets(id: string, index: number) {
+        async getWallets(id: string) {
             var store = await setStore()
             var wallet = await store.get(id)
             this.result = wallet

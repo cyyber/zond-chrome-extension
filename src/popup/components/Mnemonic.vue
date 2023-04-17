@@ -61,21 +61,11 @@
 </ion-content>
 </template>
 <script lang="ts">
-import { IonApp, IonPage, IonGrid, IonRow, IonHeader, IonToolbar, IonContent, IonButton, IonTitle, IonCol, IonIcon, IonLabel, modalController } from "@ionic/vue";
+import { IonGrid, IonRow, IonHeader, IonToolbar, IonContent, IonButton, IonTitle, IonCol, IonIcon, modalController } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { eyeOffOutline, eyeOutline } from "ionicons/icons";
-// import { useIonRouter } from '@ionic/vue';
-import { useRouter } from "vue-router";
 import {Storage} from '@ionic/storage'
 import { setStore } from '@/store/ionic-storage';
-var router = useRouter()
-
-// router.routeInfo.routeDirection = 'back'
-// router.push('some/path', 'back', 'replace')
-
-// // navigation forward
-// router.routeInfo.routeDirection = 'forward'
-// router.push('some/path', 'forward', 'replace')
 
 export default defineComponent({
     name: "Mnemonic-details",
@@ -137,7 +127,7 @@ export default defineComponent({
         }
     },
     beforeMount(){
-        this.getWallets(String(this.id), Number(this.index))
+        this.getWallets(String(this.id))
     },
     methods: {
         toggleMnemonic(){
@@ -166,7 +156,7 @@ export default defineComponent({
         backToApp() {
             return modalController.dismiss()
         },
-        async getWallets(id: string, index: number) {
+        async getWallets(id: string) {
             var store = await setStore()
             this.store = store
             var wallet = await store.get(id)

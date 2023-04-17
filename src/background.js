@@ -11,7 +11,7 @@ var eventEmitter = new EventEmitter();
 
 let store = browser.storage.local
 
-function setupProviderConnection(outStream, sender, subjectType) {
+function setupProviderConnection(outStream, sender) {
     const engine = new JsonRpcEngine()
     let web3 = providerWeb3Instance()  
     let senderUrl = new URL(sender.url)
@@ -325,13 +325,6 @@ function controllerHandler(port, method, value) {
 
 function connectRemote(remotePort) {
     const processName = remotePort.name;
-    let isQRLInternalProcess = false;
-
-    isQRLInternalProcess = remotePort.sender.origin === `chrome-extension://${browser.runtime.id}`;
-
-    const senderUrl = remotePort.sender?.url
-        ? new URL(remotePort.sender.url)
-        : null;
 
     if (processName == 'controller') {
         eventEmitter.emit('controllerPort_assigned', remotePort)
@@ -353,7 +346,7 @@ function connectRemote(remotePort) {
             "website",
         );
         remotePort.onDisconnect.addListener((msg) => { 
-            mux.destroy()
+            mux.destroy(msg)
         })
     }
 }

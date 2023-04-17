@@ -17,9 +17,7 @@
 <script lang="ts">
 import { IonApp, IonPage, IonHeader, IonToolbar, IonContent, IonButton, IonTitle } from "@ionic/vue";
 import { defineComponent } from "vue";
-// import { useIonRouter } from '@ionic/vue';
 import { useRouter } from "vue-router";
-var router = useRouter()
 
 // router.routeInfo.routeDirection = 'back'
 // router.push('some/path', 'back', 'replace')

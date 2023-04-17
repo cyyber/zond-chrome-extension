@@ -29,10 +29,8 @@
 <script lang="ts">
 import { IonApp, IonPage, IonHeader, IonToolbar, IonContent, IonButton, IonTitle, IonItem, IonInput, IonList } from "@ionic/vue";
 import UUID from "uuidjs";
-import { storefrontSharp } from "ionicons/icons";
 import { defineComponent } from "vue";
 import {setStore} from '../../store/ionic-storage'
-import {ref} from 'vue'
 
 // import { useRouter } from "vue-router";
 
@@ -109,10 +107,6 @@ export default defineComponent({
             this.new_user = store_len == 0   
         }
     },
-    setup() {
-        var username = ref('')
-        var password = ref('')
-    }
 })
 
 </script>

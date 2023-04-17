@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import {createRouter, createWebHistory} from 'vue-router'
 import Wallet from './views/Wallet.vue'
 import Welcome from './views/Welcome.vue'

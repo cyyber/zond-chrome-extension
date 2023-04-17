@@ -4,7 +4,7 @@
 
   <ion-toolbar>
     <ion-buttons slot="primary">
-      <ion-button v-on:click="openMenuModal(id, index)">
+      <ion-button v-on:click="openMenuModal(id)">
         <ion-icon slot="icon-only" :icon="menu"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -112,7 +112,7 @@
 
 import { IonRow, IonButton, IonLabel, IonCol, IonGrid, IonContent, IonIcon, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons, IonCard, IonCardHeader, IonCardTitle, modalController} from '@ionic/vue';
 
-import { defineComponent, ref } from 'vue';
+import { defineComponent} from 'vue';
 import {menu, ellipsisVerticalOutline, arrowDownCircleOutline, arrowUpCircleOutline} from 'ionicons/icons';
 import { setStore } from '@/store/ionic-storage';
 import {Storage} from '@ionic/storage'
@@ -201,7 +201,7 @@ export default defineComponent({
       });
       modal.present();
     },
-    async openMenuModal(id: string, index: number) {
+    async openMenuModal(id: string) {
       const modal = await modalController.create({
         component: Menu,
         componentProps: {
@@ -222,7 +222,7 @@ export default defineComponent({
         },
       });
       modal.present();
-      let _ = await modal.onDidDismiss()
+      await modal.onDidDismiss()
       var wallet = await this.store.get(id)
       this.result = wallet
     },
@@ -303,7 +303,6 @@ export default defineComponent({
     // }
   },
   setup() {
-    var accountname = ref('')
     return {
       menu,
       ellipsisVerticalOutline,

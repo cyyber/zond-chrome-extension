@@ -4,7 +4,7 @@
         <ion-header>
             <ion-toolbar>
                 <ion-title>
-                    Account1 -> addr
+                    Account1 Transaction
                 </ion-title>
             </ion-toolbar>
         </ion-header>
@@ -71,16 +71,13 @@
 <script lang="ts">
 import { connectPopuptoBackground } from '@/service/controller';
 import { setStore } from '@/store/ionic-storage';
-import { IonApp, IonPage, IonContent, IonHeader, IonGrid, IonToolbar, IonTitle, IonRow, IonCol, IonButton, IonItem, IonCard } from '@ionic/vue';
+import { IonApp, IonPage, IonContent, IonHeader, IonGrid, IonToolbar, IonTitle, IonRow, IonCol, IonButton, IonCard } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import {Storage} from '@ionic/storage'
 import {providerWeb3Instance} from '../../service/controller'
-import { ResolutionHandler } from 'ionicons/dist/types/stencil-public-runtime';
-// var Accounts = require('@theqrl/web3-zond-accounts');
-// var accounts = new Accounts('http://127.0.0.1:4545');
 
 export default defineComponent({
-    name: "ransaction_view",
+    name: "transaction_view",
     components: {
         IonApp,
         IonPage,

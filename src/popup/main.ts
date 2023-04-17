@@ -1,6 +1,5 @@
 import { createApp, h } from 'vue'
 import Welcome from './views/Welcome.vue';
-import AddTokens from './views/AddTokens.vue'
 
 // import router from '../router';
 import { IonicVue } from '@ionic/vue';

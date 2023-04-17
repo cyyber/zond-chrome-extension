@@ -61,7 +61,6 @@ import { setStore } from '@/store/ionic-storage';
 import { IonApp, IonAvatar, IonButton, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import {Storage} from '@ionic/storage'
-import { anyTypeAnnotation } from '@babel/types';
 
 export default defineComponent({
     name: "Add-tokens",

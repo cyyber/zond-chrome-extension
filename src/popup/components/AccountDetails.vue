@@ -90,10 +90,10 @@ export default defineComponent({
         }
     },
     beforeMount(){
-        this.getWallets(String(this.id), Number(this.index))
+        this.getWallets(String(this.id))
     },
     methods: {
-        async getWallets(id: string, index: number) {
+        async getWallets(id: string) {
             var store = await setStore()
             this.store = store
             var wallet = await store.get(id)

@@ -1,7 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 const webpack = require('webpack');
-path = require('path'),
-fileSystem = require('fs-extra'),
+// let path = require('path');
+// let fileSystem = require('fs-extra');
 
 module.exports = defineConfig({
   pages: {
