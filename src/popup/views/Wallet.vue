@@ -76,7 +76,7 @@
             </ion-col>
             <ion-icon></ion-icon>
           </ion-row>
-          <ion-row>
+          <!-- <ion-row>
             <ion-col>
               <ion-button expand="full">
                 Assets
@@ -87,7 +87,7 @@
                 Activity
               </ion-button>
             </ion-col>
-          </ion-row>
+          </ion-row> -->
         </ion-grid>
         <ion-grid v-if="generating">
           <img id="loader" src="icons/loading.gif">
