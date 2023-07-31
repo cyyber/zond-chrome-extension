@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 const Web3 = require('@theqrl/web3')
 
-const web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:4545"))
+const web3 = new Web3(new Web3.providers.HttpProvider(process.env.VUE_APP_ZOND_NODE_URL))
 
 function connectPopuptoBackground() {
     const controllerPort = browser.runtime.connect({ name: 'controller' });

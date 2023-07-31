@@ -13,7 +13,7 @@ const cleanContextForImports = () => {
   try {
     global.define = undefined;
   } catch (_) {
-    console.warn('MetaMask - global.define could not be deleted.');
+    console.warn('QRL - global.define could not be deleted.');
   }
 };
 
@@ -24,14 +24,14 @@ const restoreContextAfterImports = () => {
   try {
     global.define = __define;
   } catch (_) {
-    console.warn('MetaMask - global.define could not be overwritten.');
+    console.warn('QRL - global.define could not be overwritten.');
   }
 };
 
 cleanContextForImports();
 
 const WindowPostMessageStream = require('@metamask/post-message-stream').WindowPostMessageStream;
-const initializeProvider = require('@prajjawal/qrl_providers/dist/initializeInpageProvider').initializeProvider;
+const initializeProvider = require('@theqrl/qrl_providers/dist/initializeInpageProvider').initializeProvider;
 
 restoreContextAfterImports();
 

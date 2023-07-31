@@ -1,7 +1,5 @@
 /* eslint-disable */
 import browser from 'webextension-polyfill';
-import fs from 'fs'
-const path = require('path')
 import pump from 'pump';
 import PortStream from 'extension-port-stream';
 import ObjectMultiplex from 'obj-multiplex';
@@ -17,15 +15,13 @@ function injectScript() {
         const container = document.head || document.documentElement;
         const scriptTag = document.createElement('script');
         scriptTag.setAttribute('async', 'false');
-        // scriptTag.textContent = inpage2.toString().slice(10,-2);
-        // scriptTag.setAttribute('src', 'chrome-extension://plgbbiohldekakchldmmjdjaedchbnkg/js/inpage.js')
-        // scriptTag.setAttribute('src', "https://res.cloudinary.com/dz24nbed8/raw/upload/v1673429279/inpage_browserify-2_vlesi4.js")
-        scriptTag.setAttribute('src', "https://res.cloudinary.com/dz24nbed8/raw/upload/v1675271420/inpage_browserify_ruxgmm.js")
-      
+        const destinationFilePath = 'inpage_browserify.js';
+        const fileUrl = chrome.runtime.getURL(destinationFilePath);
+        scriptTag.setAttribute('src', fileUrl)
         container.insertBefore(scriptTag, container.children[0]);
         container.removeChild(scriptTag);
     } catch (error) {
-        console.error('MetaMask: Provider injection failed.', error);
+        console.error('QRL: Provider injection failed.', error);
     }
 }
 

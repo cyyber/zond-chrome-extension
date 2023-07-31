@@ -1,7 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
 const webpack = require('webpack');
-// let path = require('path');
-// let fileSystem = require('fs-extra');
 
 module.exports = defineConfig({
   pages: {
@@ -21,7 +19,9 @@ module.exports = defineConfig({
         buffer: require.resolve("buffer"),
         fs: require.resolve("brfs"),
         os: require.resolve("os-browserify"),
-        assert: require.resolve("assert-browserify")
+        assert: require.resolve("assert-browserify"),
+        crypto: require.resolve("crypto-browserify"),
+        http: require.resolve("stream-http"),
       },
     },
     plugins: [

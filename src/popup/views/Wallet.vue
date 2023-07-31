@@ -243,64 +243,6 @@ export default defineComponent({
       this.result = wallet
       this.id = id
     },
-    // async generateWallet() {
-    //   this.generating = true
-    //   const toUint8Vector = (arr: any) => {
-    //     const vec = new QRLLIB.Uint8Vector();
-    //     for (let i = 0; i < arr.length; i += 1) {
-    //       vec.push_back(arr[i]);
-    //     }
-    //     return vec;
-    //   };
-    //   async function makeWallet(params: any) {
-    //     let XMSS_OBJECT = null
-    //     let hashFunction = null
-    //     if (params.hashFunction === 'SHA2_256') {
-    //       hashFunction = QRLLIB.eHashFunction.SHA2_256
-    //     }
-    //     if (params.hashFunction === 'SHAKE_128') {
-    //       hashFunction = QRLLIB.eHashFunction.SHAKE_128
-    //     }
-    //     if (params.hashFunction === 'SHAKE_256') {
-    //       hashFunction = QRLLIB.eHashFunction.SHAKE_256
-    //     }
-    //     const xmssHeight = parseInt(params.treeHeight)
-    //     const randomSeed = toUint8Vector(await randomBytes(48))
-    //     XMSS_OBJECT = await new QRLLIB.Xmss.fromParameters(randomSeed, xmssHeight, hashFunction)
-    //     return XMSS_OBJECT
-    //   }
-    //   async function gen(params: any) {
-    //     const Q = await makeWallet(params)
-    //     return Q
-    //   }
-    //   setTimeout(() => {
-    //     // hack to ensure DOM is re-rendered showing spinner
-    //     gen({ treeHeight: this.treeHeight, hashFunction: this.hashFunction }).then(async (Q) => {
-    //       this.generating = false
-    //       this.result.wallet.push({
-    //         name: String(this.accountname),
-    //         balance: 0,
-    //         tokens: [],
-    //         address: Q.getAddress(),
-    //         hexseed: Q.getHexSeed(),
-    //         mnemonic: Q.getMnemonic(),
-    //       })
-    //       var result_wallet_copy: { name: string; balance: number; address: string; hexseed: string; mnemonic: string; tokens: Array<Record<string, unknown>>}[] = []
-    //       this.result.wallet.map((i) => {
-    //         result_wallet_copy.push({
-    //           name: i.name,
-    //           tokens: [],
-    //           balance: i.balance,
-    //           address: i.address,
-    //           hexseed: i.hexseed,
-    //           mnemonic: i.mnemonic,
-    //         })
-    //       })
-    //       await this.store.set(String(this.id), {username: this.result.username, wallet: [...result_wallet_copy]})
-    //       await this.openAccountModal(this.id, this.index)
-    //     })   
-    //   }, 100);
-    // }
   },
   setup() {
     return {

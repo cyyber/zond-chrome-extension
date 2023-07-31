@@ -5,4 +5,4 @@ declare module '*.vue' {
   export default component
 }
 declare module '@theqrl/wallet.js/src/dilithium';
-declare module '@theqrl/wallet.js/src/utils/mnemonic'
+declare module '@theqrl/wallet.js/src/utils/mnemonic';

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "homepage_url": "http://localhost:8080/",
-  "description": "A Vue Browser Extension",
+  "description": "A Zond Wallet Browser Extension",
   "default_locale": "en",
   "permissions": [
     "<all_urls>",
@@ -32,7 +32,7 @@
     }
   ],
   "web_accessible_resources": [
-    "js/inpage.js", "js/inpage.js.map", "js/contentScript.js.map"
+    "js/inpage.js", "js/inpage.js.map", "js/contentScript.js.map", "inpage_browserify.js"
   ],
   "browser_action": {
     "default_popup": "popup.html",
